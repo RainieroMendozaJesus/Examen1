@@ -1,0 +1,28 @@
+name: Deploy to Surge
+
+on:
+  push:
+    branches:
+      - main  # o la rama que prefieras
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out the code
+      uses: actions/checkout@v2
+
+    - name: Install Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install Surge
+      run: npm install --global surge
+
+    - name: Deploy to Surge
+      env:
+        SURGE_TOKEN: ${{ secrets.SURGE_TOKEN }}
+      run: surge ./ --domain https://stereotyped-throat.surge.sh
+
